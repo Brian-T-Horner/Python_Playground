@@ -56,6 +56,34 @@ class SpiroAnimator:
         col = (random.random(), random.random(), random.random())
         return (xc, yc, col, R, r, l)
 
+    def restart(self):
+        """
+        Restarts the spiro drawing
+        :return:
+        """
+        for spiro in self.spiros:
+            spiro.clear()  # clear spiro
+            rparams = self.genRandomParams()  # generate random parameters
+            spiro.setparams(*rparams)  # set the spiro parameters
+            spiro.restart() # restart drawing
+
+    def update(self):
+        """
+        Update all spiros
+        :return:
+        """
+        nComplete = 0
+        for spiro in self.spiros:
+            spiro.update()  # update spiro
+            # count completed spiros
+            if spiro.drawingCOmplete:
+                nComplete += 1
+
+        # restart if all spiros are complete
+        if nComplete == len(self.spiros):
+            self.restart()
+        # call the timer
+        turtle.ontimer(self.update, self.deltaT)
 
 class Spiro:
 
@@ -139,7 +167,6 @@ class Spiro:
         self.t.setpos(self.xc+x, self.yc+y)
         self.t.down()
 
-
     def draw(self):
         """
         Draw the Spirograph
@@ -179,8 +206,8 @@ class Spiro:
         a = math.radians(self.a)
 
         # calculating x and y position
-        x=self.R*((1-k)*math.cos(a) + l*k*math.cos((1-k)*a/k))
-        y=self.R*((1-k)*math.sin(a)-l*k*math.sin((1-k)*a/k))
+        x = self.R*((1-k)*math.cos(a) + l*k*math.cos((1-k)*a/k))
+        y = self.R*((1-k)*math.sin(a)-l*k*math.sin((1-k)*a/k))
         # setting the new position & drawing line to that position at same time
         self.t.setpos(self.xc + x, self.yc +y)
 
