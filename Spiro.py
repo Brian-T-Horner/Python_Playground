@@ -117,7 +117,25 @@ class Spiro(object):
             return
         # increment the angle
         self.a += self.step
-        # draw a step
-        
+
+        # using local variables for cleaner code??
+        R, k, l = self.R, self.k, self.l
+
+        # set the angle
+        a = math.radians(self.a)
+
+        # calculating x and y position
+        x=self.R*((1-k)*math.cos(a) + l*k*math.cos((1-k)*a/k))
+        y=self.R*((1-k)*math.sin(a)-l*k*math.sin((1-k)*a/k))
+        # setting the new position & drawing line to that position at same time
+        self.t.setpos(self.xc + x, self.yc +y)
+
+        # if drawing is complete set the flag
+        if self.a >= 360*self.nRot:
+            self.drawingComplete = True
+            # drawing is now done so hide turtle
+            self.t.hideturtle()
+
+
 if __name__ == '__main__':
 
