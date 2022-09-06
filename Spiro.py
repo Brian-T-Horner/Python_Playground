@@ -9,13 +9,67 @@ Edit History:
 # imports
 import math
 import turtle
+import random
 
-class Spiro(object):
-    """
 
-    """
+class SpiroAnimator:
+
+    def __init__(self, N):
+        """
+        Constructor for class to animate Spirographs
+        :param N: Numbers of spiros to be randomly generated
+        """
+        # set timer value in milliseconds
+        self.deltaT = 10
+        # get the window dimensions
+        self.width = turtle.window_width()
+        self.height = turtle.window_height()
+
+        # create Spiro objects
+        self.spiros = []
+        for i in range(N):
+            # generate random parameters
+            rparams = self.genRandomParams()
+            # set the spiro parameters
+            spiro = Spiro(*rparams)
+            self.spiros.append(spiro)
+            # call timer
+            turtle.ontimer(self.update, self.deltaT)
+
+    def genRandomParams(self):
+        """
+        Generate random parameters for Spiros
+        :return:
+        """
+        width, height = self.width, self.height
+
+        # generate random integers for the radius of both circles
+        R = random.randint(50, min(width, height)//2)
+        r = random.randint(10, 9*R//10)
+
+        # generate random float for the
+        l = random.uniform(0.1, 0.9)
+
+        # generate random x and y coordinate for start of Spiro
+        xc = random.randint(-width//2, width//2)
+        yc = random.randint(-height//2, height//2)
+        col = (random.random(), random.random(), random.random())
+        return (xc, yc, col, R, r, l)
+
+
+class Spiro:
+
     def __init__(self, xc, yc, col, R, r, l):
+        """
+        Constructor for spiro class
 
+        :param xc: x coordinate for the center of curve
+        :param yc: y coordinate for the center of curve
+        :param col: color of spirograph
+        :param R: Radius of large circle
+        :param r: radius of small circle
+        :param l:
+        """
         # create turtle object
         self.t = turtle.Turtle()
         #set cursor shape
@@ -63,7 +117,7 @@ class Spiro(object):
 
     def restart(self):
         """
-        Restarts the drawing
+        Restarts the drawing of spiros
         :return:
         """
         # set the flag
@@ -138,4 +192,4 @@ class Spiro(object):
 
 
 if __name__ == '__main__':
-
+    print("Hello")
